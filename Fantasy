@@ -1,0 +1,158 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class wedding {
+
+        public static String brideName() {
+
+          System.out.println("Enter the bride's name: ");
+
+          Scanner scan = new Scanner(System.in);
+
+          String bride = scan.nextLine();
+
+          return bride;
+
+    }
+
+    public static String groomName() {
+
+          System.out.println("Enter the groom's name: ");
+
+          Scanner scan = new Scanner(System.in);
+
+          String groom = scan.nextLine();
+
+          return groom;
+
+    }
+
+    public static int numGuests() {
+
+          System.out.print("Enter the number of guests: ");
+
+          Scanner scan = new Scanner(System.in);
+
+          int guests = Integer.parseInt(scan.nextLine());
+
+          return guests;
+
+    }
+
+    public static double squareFootage() {
+
+          System.out.print("Enter the square footage of the location (must be accurate to 0.1 square feet): ");
+
+          Scanner scan = new Scanner(System.in);
+
+          double sqft = Double.parseDouble(scan.nextLine());
+
+          return sqft;
+
+    }
+
+    public static ArrayList<String> playList() {
+
+          ArrayList<String> playList = new ArrayList<String>();
+
+          System.out.println("Enter each song on the DJ's playlist, type 'done' when finished. ");
+
+          Scanner scan = new Scanner(System.in);
+
+          String song = scan.nextLine();
+
+          while (!song.equalsIgnoreCase("done"))
+          
+          {
+                playList.add(song);
+                song = scan.nextLine();
+          }
+
+          return playList;
+
+    }
+
+    public static double numGuestsPerSquareFoot(int guests, double sqft) {
+
+          double guestsPerSqFt = (double) guests / sqft;
+
+          return guestsPerSqFt;
+
+    }
+
+    public static void writeToFile(String filename, String bride, String groom,
+
+                int numGuests, double sqft, ArrayList<String> playList,
+
+                double numGuestsPerSqFt) 
+                
+        throws FileNotFoundException {
+
+          PrintWriter writer = new PrintWriter(new File(filename));
+
+          writer.println("The Wedding of: " + bride + " & " + groom);
+
+          writer.println("Number of guests: " + numGuests);
+
+          writer.printf("Square footage of location: %.1f\n", sqft);
+
+          writer.println("DJ'S Playlist: ");
+
+          for (String song : playList) {
+
+            writer.println("\t" + song);
+
+          }
+
+          writer.printf("Number of guests per square footage: %.2f\n", numGuestsPerSqFt);
+          writer.close();
+
+    }
+
+    public static void printData(String filename) throws FileNotFoundException {
+
+          Scanner scan = new Scanner(new File(filename));
+
+          while (scan.hasNext()) {
+
+            System.out.println(scan.nextLine());
+
+          }
+
+          scan.close();
+
+    }
+    public static void main(String[] args) {
+
+      String brideName = brideName();
+
+      String groomName = groomName();
+
+      int numGuests = numGuests();
+
+      double squareFootage = squareFootage();
+
+      ArrayList<String> playList = playList();
+
+      double numGuestsPerSquareFoot = numGuestsPerSquareFoot(numGuests,squareFootage);
+
+      try {
+
+            writeToFile("wedding.txt", brideName, groomName, numGuests,squareFootage, playList, numGuestsPerSquareFoot);
+
+            printData("wedding.txt");
+
+        } 
+      catch (FileNotFoundException e) {
+
+            e.printStackTrace();
+
+      }
+
+}   
+        
+    
+}
